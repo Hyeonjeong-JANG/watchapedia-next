@@ -82,6 +82,8 @@
   --success-700: #659711;
   --success-800: #4c7a0b;
   --success-900: #3b6506;
+
+  --font-sans: "Plus Jakarta Sans", "Noto Sans KR", sans-serif;
 }
 
 @theme inline {
@@ -106,6 +108,8 @@
   --color-success-700: var(--success-700);
   --color-success-800: var(--success-800);
   --color-success-900: var(--success-900);
+
+  --font-sans: var(--font-sans);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -118,5 +122,5 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: "Plus Jakarta Sans", "Noto Sans KR", sans-serif;
+  font-family: var(--font-sans);
 }
