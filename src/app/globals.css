@@ -1,126 +1,61 @@
 @import "tailwindcss";
 
-/* Plus Jakarta Sans 폰트 선언 */
-@font-face {
-  font-family: "Plus Jakarta Sans";
-  src: url("/fonts/PlusJakartaSans-Regular.ttf") format("truetype");
-  font-weight: 400; /* Regular */
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "Plus Jakarta Sans";
-  src: url("/fonts/PlusJakartaSans-Medium.ttf") format("truetype");
-  font-weight: 500; /* Medium */
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "Plus Jakarta Sans";
-  src: url("/fonts/PlusJakartaSans-SemiBold.ttf") format("truetype");
-  font-weight: 600; /* SemiBold */
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "Plus Jakarta Sans";
-  src: url("/fonts/PlusJakartaSans-Bold.ttf") format("truetype");
-  font-weight: 700; /* Bold */
-  font-style: normal;
-}
-
-/* Noto Sans KR 폰트 선언 */
+/* 폰트 */
 @font-face {
   font-family: "Noto Sans KR";
   src: url("/fonts/NotoSansKR-Regular.ttf") format("truetype");
-  font-weight: 400; /* Regular */
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "Noto Sans KR";
-  src: url("/fonts/NotoSansKR-Medium.ttf") format("truetype");
-  font-weight: 500; /* Medium */
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "Noto Sans KR";
-  src: url("/fonts/NotoSansKR-SemiBold.ttf") format("truetype");
-  font-weight: 600; /* SemiBold */
+  font-weight: 400;
   font-style: normal;
 }
 
 @font-face {
   font-family: "Noto Sans KR";
   src: url("/fonts/NotoSansKR-Bold.ttf") format("truetype");
-  font-weight: 700; /* Bold */
+  font-weight: 700;
   font-style: normal;
 }
 
 :root {
-  /* Primary Neutral Palette */
-  --primary-100: #e6e9ff;
-  --primary-200: #bac8ff;
-  --primary-300: #9b9bff;
-  --primary-400: #898bf0;
-  --primary-500: #626cee;
-  --primary-600: #4c4eff;
-  --primary-700: #383db7;
-  --primary-800: #2a31a3;
-  --primary-900: #10197a;
-  --primary-default: #4c4eff;
-  --primary-white: #ffffff;
-
-  /* Success Palette */
-  --success-100: #ebf8aa;
-  --success-200: #d5f178;
-  --success-300: #bce455;
-  --success-400: #a2d92d;
-  --success-500: #9cd323;
-  --success-600: #7fb519;
-  --success-700: #659711;
-  --success-800: #4c7a0b;
-  --success-900: #3b6506;
-
-  --font-sans: "Plus Jakarta Sans", "Noto Sans KR", sans-serif;
+  /* 왓챠피디아 컬러 팔레트 */
+  --watcha-primary: #ff0558;
+  --watcha-secondary: #ff3377;
+  --watcha-background-dark: #171717;
+  --watcha-background-light: #f8f8f8;
+  --watcha-text-dark: #171717;
+  --watcha-text-light: #ffffff;
+  --watcha-gray-100: #ebebeb;
+  --watcha-gray-200: #d1d1d1;
+  --watcha-gray-300: #b7b7b7;
+  --watcha-gray-400: #9d9d9d;
+  --watcha-gray-500: #838383;
+  --watcha-gray-600: #696969;
+  --watcha-gray-700: #505050;
+  --watcha-gray-800: #363636;
+  --watcha-gray-900: #1c1c1c;
 }
 
 @theme inline {
-  --color-primary-100: var(--primary-100);
-  --color-primary-200: var(--primary-200);
-  --color-primary-300: var(--primary-300);
-  --color-primary-400: var(--primary-400);
-  --color-primary-500: var(--primary-500);
-  --color-primary-600: var(--primary-600);
-  --color-primary-700: var(--primary-700);
-  --color-primary-800: var(--primary-800);
-  --color-primary-900: var(--primary-900);
-  --color-primary-default: var(--primary-default);
-  --color-primary-white: var(--primary-white);
+  --color-primary: var(--watcha-primary);
+  --color-secondary: var(--watcha-secondary);
+  --color-background-dark: var(--watcha-background-dark);
+  --color-background-light: var(--watcha-background-light);
+  --color-text-dark: var(--watcha-text-dark);
+  --color-text-light: var(--watcha-text-light);
+  --color-gray-100: var(--watcha-gray-100);
+  --color-gray-200: var(--watcha-gray-200);
+  --color-gray-300: var(--watcha-gray-300);
+  --color-gray-400: var(--watcha-gray-400);
+  --color-gray-500: var(--watcha-gray-500);
+  --color-gray-600: var(--watcha-gray-600);
+  --color-gray-700: var(--watcha-gray-700);
+  --color-gray-800: var(--watcha-gray-800);
+  --color-gray-900: var(--watcha-gray-900);
 
-  --color-success-100: var(--success-100);
-  --color-success-200: var(--success-200);
-  --color-success-300: var(--success-300);
-  --color-success-400: var(--success-400);
-  --color-success-500: var(--success-500);
-  --color-success-600: var(--success-600);
-  --color-success-700: var(--success-700);
-  --color-success-800: var(--success-800);
-  --color-success-900: var(--success-900);
-
-  --font-sans: var(--font-sans);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --font-sans: "Noto Sans KR", sans-serif;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
+  background-color: var(--watcha-background-dark);
+  color: var(--watcha-text-light);
   font-family: var(--font-sans);
 }

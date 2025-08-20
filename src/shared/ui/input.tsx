@@ -1,15 +1,12 @@
-// src/shared/ui/input.tsx
 import { type InputHTMLAttributes, type FC } from 'react';
 import { twMerge } from 'tailwind-merge';
 
-// Props 인터페이스 정의
 export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   error?: boolean;
   leftIcon?: React.ReactNode;
   rightIcon?: React.ReactNode;
 }
 
-// Input 컴포넌트 구현
 const Input: FC<InputProps> = ({
   className,
   error = false,
@@ -28,11 +25,12 @@ const Input: FC<InputProps> = ({
       )}
       <input
         className={twMerge(
-          "w-full rounded-lg border-2 p-4 text-gray-800 transition-all duration-200",
-          "placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500",
+          // 모서리, 포커스, 색상 수정
+          "w-full rounded-full border-2 p-4 text-watcha-text-dark bg-watcha-background-light transition-all duration-200",
+          "placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-watcha-primary",
           "disabled:opacity-50 disabled:cursor-not-allowed",
-          error ? "border-red-500" : "border-gray-200",
-          isWithIcon ? "pl-12" : "", // 아이콘이 있을 때 패딩 추가
+          error ? "border-watcha-primary" : "border-gray-200",
+          isWithIcon ? "pl-12" : "",
           className
         )}
         {...props}
@@ -46,5 +44,5 @@ const Input: FC<InputProps> = ({
   );
 };
 
-Input.displayName = "Input";
+Input.displayName = 'Input';
 export { Input };
