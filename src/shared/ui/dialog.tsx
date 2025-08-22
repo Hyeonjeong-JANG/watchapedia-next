@@ -4,6 +4,11 @@ import { type FC, type ReactNode } from 'react';
 import * as DialogPrimitive from '@radix-ui/react-dialog';
 import { twMerge } from 'tailwind-merge';
 
+interface DialogCloseProps {
+  position?: 'left' | 'right';
+  className?: string;
+}
+
 interface DialogProps {
   children: ReactNode;
   open: boolean;
@@ -33,8 +38,8 @@ const DialogContent: FC<DialogContentProps> = ({ children, className }) => {
       <div
         className={twMerge(
           "fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50",
-          "w-full max-w-sm md:max-w-md", // 모바일/데스크톱 크기
-          "bg-white rounded-md shadow-lg", // 디자인 적용
+          "w-[375px] h-[320px]",
+          "bg-white rounded-md shadow-lg",
           "p-6 transform transition-all duration-300 ease-out",
           className
         )}
@@ -49,23 +54,46 @@ const DialogContent: FC<DialogContentProps> = ({ children, className }) => {
 interface DialogTitleProps {
   children: ReactNode;
   className?: string;
+  showUnderline?: boolean;
+  underlineClassName?: string;
 }
 
-const DialogTitle: FC<DialogTitleProps> = ({ children, className }) => (
-  <DialogPrimitive.Title
-    className={twMerge("text-2xl font-bold mb-4", className)}
-  >
-    {children}
-  </DialogPrimitive.Title>
+const DialogTitle: FC<DialogTitleProps> = ({ 
+  children, 
+  className, 
+  showUnderline = false,
+  underlineClassName 
+}) => (
+  <div className="relative">
+    <DialogPrimitive.Title
+      className={twMerge("text-2xl font-bold mb-4", className)}
+    >
+      {children}
+    </DialogPrimitive.Title>
+    {showUnderline && (
+      <div 
+        className={twMerge(
+          "absolute left-0 right-0 h-px bg-gray-200 -bottom-2", 
+          underlineClassName
+        )} 
+      />
+    )}
+  </div>
 );
 
 // 모달 닫기 버튼
-const DialogClose: FC = () => (
+const DialogClose: FC<DialogCloseProps> = ({ position = 'right', className }) => (
   <DialogPrimitive.Close
-    className="absolute top-4 right-4 text-gray-400 hover:text-gray-600"
+    className={twMerge(
+      `absolute top-4 text-gray-400 hover:text-gray-600 z-10 ${
+        position === 'left' ? 'left-4' : 'right-4'
+      }`,
+      className
+    )}
   >
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line>
+      <line x1="18" y1="6" x2="6" y2="18"></line>
+      <line x1="6" y1="6" x2="18" y2="18"></line>
     </svg>
   </DialogPrimitive.Close>
 );
