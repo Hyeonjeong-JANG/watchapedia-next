@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { getLanguageDisplay } from '@/shared/data/languages';
 import { getCountryDisplay } from '@/shared/data/countries';
+import { SettingsModal } from './SettingsModal';
 import { LanguageModal } from './LanguageModal';
 import { CountryModal } from './CountryModal';
 
@@ -19,11 +20,12 @@ export function LanguageSelector({
   onLanguageChange,
   onCountryChange
 }: LanguageSelectorProps) {
+  const [showSettingsModal, setShowSettingsModal] = useState(false);
   const [showLanguageModal, setShowLanguageModal] = useState(false);
   const [showCountryModal, setShowCountryModal] = useState(false);
 
   const handleButtonClick = () => {
-    setShowLanguageModal(true);
+    setShowSettingsModal(true);
   };
 
   const handleLanguageSelect = (languageCode: string) => {
@@ -34,14 +36,20 @@ export function LanguageSelector({
     onCountryChange(countryCode);
   };
 
+  const handleShowLanguageModal = () => {
+    setShowSettingsModal(false);
+    setShowLanguageModal(true);
+  };
+
   const handleShowCountryModal = () => {
-    setShowLanguageModal(false);
+    setShowSettingsModal(false);
     setShowCountryModal(true);
   };
 
-  const handleBackToLanguage = () => {
+  const handleBackToSettings = () => {
+    setShowLanguageModal(false);
     setShowCountryModal(false);
-    setShowLanguageModal(true);
+    setShowSettingsModal(true);
   };
 
   const displayText = `${getLanguageDisplay(selectedLanguage)} (${getCountryDisplay(selectedCountry)})`;
@@ -63,12 +71,21 @@ export function LanguageSelector({
  </div>
       </button>
 
+      <SettingsModal
+        open={showSettingsModal}
+        onOpenChange={setShowSettingsModal}
+        selectedLanguage={selectedLanguage}
+        selectedCountry={selectedCountry}
+        onLanguageClick={handleShowLanguageModal}
+        onCountryClick={handleShowCountryModal}
+      />
+
       <LanguageModal
         open={showLanguageModal}
         onOpenChange={setShowLanguageModal}
         selectedLanguage={selectedLanguage}
         onLanguageSelect={handleLanguageSelect}
-        onCountrySelect={handleShowCountryModal}
+        onBack={handleBackToSettings}
       />
 
       <CountryModal
@@ -76,7 +93,7 @@ export function LanguageSelector({
         onOpenChange={setShowCountryModal}
         selectedCountry={selectedCountry}
         onCountrySelect={handleCountrySelect}
-        onBackToLanguage={handleBackToLanguage}
+        onBack={handleBackToSettings}
       />
     </>
   );

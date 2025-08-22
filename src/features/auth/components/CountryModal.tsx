@@ -8,7 +8,7 @@ interface CountryModalProps {
   onOpenChange: (open: boolean) => void;
   selectedCountry: string;
   onCountrySelect: (countryCode: string) => void;
-  onBackToLanguage: () => void; // 언어 선택으로 돌아가기
+  onBack: () => void; // 설정 모달로 돌아가기
 }
 
 export function CountryModal({
@@ -16,15 +16,15 @@ export function CountryModal({
   onOpenChange,
   selectedCountry,
   onCountrySelect,
-  onBackToLanguage
+  onBack
 }: CountryModalProps) {
   const handleCountryClick = (countryCode: string) => {
     onCountrySelect(countryCode);
-    onOpenChange(false); // 국가 선택 후 모달 닫기
+    onBack(); // 국가 선택 후 설정 모달로 돌아가기
   };
 
   const handleClose = () => {
-    onBackToLanguage(); // X 버튼 클릭 시 언어 선택으로 돌아가기
+    onBack(); // X 버튼 클릭 시 설정 모달로 돌아가기
   };
 
   return (
@@ -68,7 +68,7 @@ export function CountryModal({
                   >
                     <span className="text-sm">{country.name}</span>
                     {selectedCountry === country.code && (
-                      <span className="text-[#ff0558]">✓</span>
+                      <span className="text-[#ff0558] text-lg">✓</span>
                     )}
                   </button>
                 ))}
