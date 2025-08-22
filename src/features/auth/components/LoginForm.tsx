@@ -38,17 +38,6 @@ export function LoginForm() {
           className="w-full bg-gray-100 border-0 rounded-md px-4 py-3 text-gray-900 placeholder-gray-500"
         />
 
-        {/* 국가/언어 선택 */}
-        <select 
-          value={country}
-          onChange={(e) => setCountry(e.target.value)}
-          className="w-full bg-gray-100 border-0 rounded-md px-4 py-3 text-gray-900 appearance-none cursor-pointer"
-        >
-          <option value="한국어 (대한민국)">한국어 (대한민국)</option>
-          <option value="English (United States)">English (United States)</option>
-          <option value="日本語 (日本)">日本語 (日本)</option>
-        </select>
-
         <Button 
           type="submit" 
           className="w-full bg-[#ff0558] hover:bg-[#e6044d] text-white font-semibold py-3 rounded-md transition-colors"

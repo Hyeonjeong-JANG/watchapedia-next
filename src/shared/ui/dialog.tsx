@@ -34,7 +34,7 @@ const DialogContent: FC<DialogContentProps> = ({ children, className }) => {
         className={twMerge(
           "fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50",
           "w-full max-w-sm md:max-w-md", // 모바일/데스크톱 크기
-          "bg-white dark:bg-gray-900 rounded-md shadow-lg", // 디자인 적용
+          "bg-white rounded-md shadow-lg", // 디자인 적용
           "p-6 transform transition-all duration-300 ease-out",
           className
         )}

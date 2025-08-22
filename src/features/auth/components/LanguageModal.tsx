@@ -20,7 +20,7 @@ export function LanguageModal({
 }: LanguageModalProps) {
   const handleLanguageClick = (languageCode: string) => {
     onLanguageSelect(languageCode);
-    onCountrySelect(); // 언어 선택 후 국가 선택 모달로 이동
+    onCountrySelect(); //  선택 후 국가 선택 모달로 이동
   };
 
   return (
