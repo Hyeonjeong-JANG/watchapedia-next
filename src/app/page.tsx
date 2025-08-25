@@ -1,25 +1,44 @@
+'use client';
+
 import Link from "next/link";
+import { useEffect, useState } from 'react';
+import { fetchPopularMovies, fetchUpcomingMovies } from '@/infrastructure/api/tmdb';
+import { Movie } from '@/shared/types/movie'; // Movie 타입 임포트
 
 export default function Home() {
-    return (
+  const [popularMovies, setPopularMovies] = useState<Movie[]>([]);
+  const [upcomingMovies, setUpcomingMovies] = useState<Movie[]>([]);
+  const [loadingPopular, setLoadingPopular] = useState(true);
+  const [loadingUpcoming, setLoadingUpcoming] = useState(true);
+
+  useEffect(() => {
+    const getPopularMovies = async () => {
+      const data = await fetchPopularMovies();
+      if (data) {
+        setPopularMovies(data);
+      }
+      setLoadingPopular(false);
+    };
+
+    const getUpcomingMovies = async () => {
+      const data = await fetchUpcomingMovies();
+      if (data) {
+        setUpcomingMovies(data.slice(0, 5)); // 5개만 가져오도록
+      }
+      setLoadingUpcoming(false);
+    };
+
+    getPopularMovies();
+    getUpcomingMovies();
+  }, []);
+
+  return (
     <>
       {/* 메인 배너 섹션 */}
       <div className="relative">
-        {/* 히어로 배너 슬라이더 */}
-        <div className="relative h-96 bg-gradient-to-r from-purple-900 to-blue-900 overflow-hidden">
-          <div className="absolute inset-0 bg-black bg-opacity-40"></div>
-          <div className="relative z-10 h-full flex items-center justify-center">
-            <div className="text-center text-white">
-              <h1 className="text-4xl font-bold mb-4">지금 가장 핫한 작품</h1>
-              <p className="text-lg mb-6">새로운 이야기를 발견해보세요</p>
-              <Link 
-                href="/signup" 
-                className="bg-[#ff0558] hover:bg-[#e6044d] text-white px-8 py-3 rounded-md font-semibold transition-colors"
-              >
-                지금 시작하기
-              </Link>
-            </div>
-          </div>
+        {/* 아티클 섹션 */}
+        <div className="relative h-96 bg-gradient-to-r overflow-hidden">
+          {/* 아티클 섹션 내용 */}
         </div>
       </div>
 
@@ -28,26 +47,40 @@ export default function Home() {
         {/* HOT 랭킹 섹션 */}
         <section className="mb-12">
           <h2 className="text-2xl font-bold mb-6">왓챠피디아 HOT 랭킹</h2>
-          <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-            {[1, 2, 3, 4, 5].map((rank) => (
-              <div key={rank} className="relative group cursor-pointer">
-                <div className="aspect-[3/4] bg-gray-200 rounded-lg overflow-hidden">
-                  <div className="w-full h-full bg-gradient-to-br from-gray-300 to-gray-400 flex items-center justify-center">
-                    <span className="text-gray-600 text-lg font-bold">#{rank}</span>
+          {loadingPopular ? (
+            <div className="flex justify-center items-center h-48 text-gray-500">
+              데이터를 불러오는 중입니다...
+            </div>
+          ) : (
+            <>
+              {popularMovies.length === 0 ? (
+              <div className="text-center text-gray-500">영화 데이터가 없습니다.</div>
+            ) : (
+              <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+                {popularMovies.map((movie, index) => (
+                  <div key={movie.id} className="relative group cursor-pointer">
+                    <div className="aspect-[3/4] bg-gray-200 rounded-lg overflow-hidden">
+                      <img
+                        src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+                        alt={movie.title}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                    <div className="absolute top-2 left-2">
+                      <span className="bg-[#ff0558] text-white text-xs font-bold px-2 py-1 rounded">
+                        {index + 1}
+                      </span>
+                    </div>
+                    <div className="mt-2">
+                      <h3 className="font-semibold text-sm line-clamp-2">{movie.title}</h3>
+                      <p className="text-gray-600 text-xs">평균 ★ {movie.vote_average.toFixed(1)}</p>
+                    </div>
                   </div>
-                </div>
-                <div className="absolute top-2 left-2">
-                  <span className="bg-[#ff0558] text-white text-xs font-bold px-2 py-1 rounded">
-                    {rank}
-                  </span>
-                </div>
-                <div className="mt-2">
-                  <h3 className="font-semibold text-sm line-clamp-2">영화 제목 {rank}</h3>
-                  <p className="text-gray-600 text-xs">평균 ★ 4.{rank}</p>
-                </div>
+                ))}
               </div>
-            ))}
-          </div>
+            )}
+            </>
+          )}
         </section>
 
         {/* 공개 예정작 섹션 */}
@@ -58,23 +91,35 @@ export default function Home() {
               더보기 →
             </Link>
           </div>
-          <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-            {[1, 2, 3, 4, 5].map((item) => (
-              <div key={item} className="group cursor-pointer">
-                <div className="aspect-[3/4] bg-gray-200 rounded-lg overflow-hidden mb-2">
-                  <div className="w-full h-full bg-gradient-to-br from-blue-300 to-purple-400 flex items-center justify-center">
-                    <span className="text-white text-lg font-bold">D-{item}</span>
+          {loadingUpcoming ? (
+            <div className="flex justify-center items-center h-48 text-gray-500">
+              데이터를 불러오는 중입니다...
+            </div>
+          ) : (
+            <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+              {upcomingMovies.map((movie) => (
+                <div key={movie.id} className="group cursor-pointer">
+                  <div className="aspect-[3/4] bg-gray-200 rounded-lg overflow-hidden mb-2">
+                    <img
+                      src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+                      alt={movie.title}
+                      className="w-full h-full object-cover"
+                    />
                   </div>
+                  <div className="flex items-center mb-1">
+                    <span className="bg-gray-800 text-white text-xs px-2 py-1 rounded mr-2">
+                      개봉 {movie.release_date}
+                    </span>
+                    <span className="text-xs text-gray-600">
+                      평균 ★ {movie.vote_average.toFixed(1)}
+                    </span>
+                  </div>
+                  <h3 className="font-semibold text-sm line-clamp-2">{movie.title}</h3>
+                  <p className="text-gray-600 text-xs">개봉일 {movie.release_date}</p>
                 </div>
-                <div className="flex items-center mb-1">
-                  <span className="bg-gray-800 text-white text-xs px-2 py-1 rounded mr-2">D-{item}</span>
-                  <span className="text-xs text-gray-600">보고싶어요 {Math.floor(Math.random() * 50)}K</span>
-                </div>
-                <h3 className="font-semibold text-sm line-clamp-2">예정작 제목 {item}</h3>
-                <p className="text-gray-600 text-xs">개봉일 2025.08.2{item}</p>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
         </section>
 
         {/* 인물 랭킹 섹션 */}
