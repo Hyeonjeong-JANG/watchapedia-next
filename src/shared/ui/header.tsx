@@ -3,12 +3,14 @@
 import Link from 'next/link';
 import { useState, useRef, useEffect } from 'react';
 import { Button } from './button';
+import { usePathname } from 'next/navigation';
 
 export function Header() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isSearchFocused, setIsSearchFocused] = useState(false);
   const [searchValue, setSearchValue] = useState('');
   const searchRef = useRef<HTMLDivElement>(null);
+  const pathname = usePathname();
 
   // 인기검색어 더미 데이터
   const popularSearches = [
@@ -38,11 +40,17 @@ export function Header() {
     };
   }, []);
 
+  const getLinkClass = (href: string) => {
+    const isActive = pathname === href || (href !== '/' && pathname.startsWith(href));
+    return `font-semibold hover:text-black ${isActive ? 'text-black' : 'text-gray-500'}`;
+  };
+
   return (
     <header className="bg-white shadow-sm border-b">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
-          {/* 로고 */}
+          <div className="flex items-center">
+        {/* 로고 */}
           <div className="flex items-center">
             <Link href="/" className="text-2xl font-bold">
               <span className="text-[#ff0558]">WATCHA</span>
@@ -51,28 +59,29 @@ export function Header() {
           </div>
 
           {/* 네비게이션 메뉴 */}
-          <nav className="hidden md:flex space-x-8">
-            <Link href="/" className="text-gray-700 hover:text-[#ff0558] font-medium">
+          <nav className="hidden md:flex space-x-8 px-8">
+            <Link href="/" className={getLinkClass('/')}>
               홈
             </Link>
-            <Link href="/movies" className="text-gray-700 hover:text-[#ff0558] font-medium">
+            <Link href="/movies" className={getLinkClass('/movies')}>
               영화
             </Link>
-            <Link href="/series" className="text-gray-700 hover:text-[#ff0558] font-medium">
+            <Link href="/series" className={getLinkClass('/series')}>
               시리즈
             </Link>
-            <Link href="/books" className="text-gray-700 hover:text-[#ff0558] font-medium">
+              <Link href="/books" className={getLinkClass('/books')}>
               책
             </Link>
-            <Link href="/webtoons" className="text-gray-700 hover:text-[#ff0558] font-medium">
+            <Link href="/webtoons" className={getLinkClass('/webtoons')}>
               웹툰
             </Link>
           </nav>
-
+          </div>
+        <div className="flex items-center">
           {/* 검색바 */}
           <div className="flex-1 max-w-lg mx-8" ref={searchRef}>
             <div className="relative">
-              <div className="relative">
+              <div className="relative w-full">
                 {/* 돋보기 아이콘 */}
                 <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-600">
                   <svg 
@@ -94,7 +103,7 @@ export function Header() {
                   onChange={(e) => setSearchValue(e.target.value)}
                   onFocus={() => setIsSearchFocused(true)}
                   placeholder="콘텐츠, 인물, 컬렉션, 유저, 매거진 검색"
-                  className="w-full bg-gray-100 border-0 pl-10 pr-4 py-2 text-sm text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#ff0558]"
+                  className="w-full bg-gray-100 border-0 pl-10 pr-4 py-2 text-sm text-gray-900 placeholder-gray-500 focus:outline-none"
                 />
               </div>
               
@@ -131,10 +140,10 @@ export function Header() {
           <div className="flex items-center space-x-4">
             {!isLoggedIn ? (
               <>
-                <Link href="/login" className="text-gray-700 hover:text-[#ff0558] font-medium">
+                <Link href="/login" className="text-gray-600 font-semibold text-xs hover:text-black  px-3 py-2">
                   로그인
                 </Link>
-                <Link href="/signup" className="text-gray-700 hover:text-[#ff0558] font-medium">
+                <Link href="/signup" className="text-black font-semibold text-xs hover:bg-gray-100 border border-gray-300 px-3 py-2 rounded">
                   회원가입
                 </Link>
               </>
@@ -143,14 +152,14 @@ export function Header() {
                 <Button
                   variant="minimal"
                   size="small"
-                  className="text-gray-700 hover:text-[#ff0558]"
+                  className="text-gray-700 hover:text-black"
                 >
                   평가하기
                 </Button>
                 <Button
                   variant="minimal"
                   size="small"
-                  className="text-gray-700 hover:text-[#ff0558]"
+                  className="text-gray-700 hover:text-black"
                 >
                   소식
                 </Button>
@@ -158,6 +167,8 @@ export function Header() {
               </div>
             )}
           </div>
+</div>
+
         </div>
       </div>
     </header>
