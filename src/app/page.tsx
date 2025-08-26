@@ -3,7 +3,8 @@
 import Link from "next/link";
 import { useEffect, useState } from 'react';
 import { fetchPopularMovies, fetchUpcomingMovies } from '@/infrastructure/api/tmdb';
-import { Movie } from '@/shared/types/movie'; // Movie 타입 임포트
+import { Movie } from '@/shared/types/movie';
+import { MagazineSection } from '@/features/magazines/MagazineSection'; 
 
 export default function Home() {
   const [popularMovies, setPopularMovies] = useState<Movie[]>([]);
@@ -36,10 +37,7 @@ export default function Home() {
     <>
       {/* 메인 배너 섹션 */}
       <div className="relative">
-        {/* 아티클 섹션 */}
-        <div className="relative h-96 bg-gradient-to-r overflow-hidden">
-          {/* 아티클 섹션 내용 */}
-        </div>
+        <MagazineSection />
       </div>
 
       {/* 컨텐츠 섹션 */}

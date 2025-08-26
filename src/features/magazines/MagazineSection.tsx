@@ -24,7 +24,6 @@ export function MagazineSection() {
 
   return (
     <section className="mb-12">
-      <h2 className="text-2xl font-bold mb-6">매거진</h2>
       <div className="flex items-center space-x-4">
         <button onClick={prevSlide} disabled={startIndex === 0} className="px-3 py-2 border rounded-full">
           &#8592;
