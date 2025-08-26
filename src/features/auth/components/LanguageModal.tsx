@@ -1,6 +1,6 @@
 'use client';
 
-import { CustomDialog } from '@/shared/ui/custom-dialog';
+import { CustomDialog } from '@/shared/ui/CustomDialog';
 import { languages, type Language } from '@/shared/data/languages';
 
 interface LanguageModalProps {

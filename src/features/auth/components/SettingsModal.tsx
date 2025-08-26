@@ -1,6 +1,6 @@
 'use client';
 
-import { CustomDialog } from '@/shared/ui/custom-dialog';
+import { CustomDialog } from '@/shared/ui/CustomDialog';
 import { getLanguageDisplay } from '@/shared/data/languages';
 import { getCountryDisplay } from '@/shared/data/countries';
 

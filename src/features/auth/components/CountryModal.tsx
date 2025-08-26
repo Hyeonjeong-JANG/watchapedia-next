@@ -1,6 +1,6 @@
 'use client';
 
-import { CustomDialog } from '@/shared/ui/custom-dialog';
+import { CustomDialog } from '@/shared/ui/CustomDialog';
 import { countries, type Country } from '@/shared/data/countries';
 
 interface CountryModalProps {

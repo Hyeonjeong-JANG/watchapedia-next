@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { Button } from '@/shared/ui/button';
+import { Button } from '@/shared/ui/Button';
 
 interface AuthContainerProps {
   children: React.ReactNode;

@@ -1,7 +1,7 @@
 'use client';
 
 import { type FC, type ReactNode } from 'react';
-import { Dialog, DialogContent, DialogClose } from './dialog';
+import { Dialog, DialogContent, DialogClose } from './Dialog';
 import { twMerge } from 'tailwind-merge';
 
 interface CustomDialogProps {

@@ -55,7 +55,7 @@
 }
 
 body {
-  background-color: var(--watcha-background-dark);
-  color: var(--watcha-text-light);
+  background-color: var(--watcha-background-light);
+  color: var(--watcha-text-dark);
   font-family: var(--font-sans);
 }

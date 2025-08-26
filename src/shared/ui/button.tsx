@@ -1,6 +1,6 @@
 import { cva, type VariantProps } from 'class-variance-authority';
 import { twMerge } from 'tailwind-merge';
-import { type ButtonHTMLAttributes, type FC } from 'react';
+import React, { type ButtonHTMLAttributes, type FC } from 'react';
 
 export interface ButtonProps
   extends ButtonHTMLAttributes<HTMLButtonElement>,

@@ -2,8 +2,9 @@
 
 import Link from 'next/link';
 import { useState, useRef, useEffect } from 'react';
-import { Button } from './button';
+import { Button } from './Button';
 import { usePathname } from 'next/navigation';
+import Image from 'next/image';
 
 export function Header() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -52,9 +53,8 @@ export function Header() {
           <div className="flex items-center">
         {/* 로고 */}
           <div className="flex items-center">
-            <Link href="/" className="text-2xl font-bold">
-              <span className="text-[#ff0558]">WATCHA</span>
-              <span className="text-gray-700"> PEDIA</span>
+            <Link href="/" >
+              <Image src="/images/logo.svg" alt="와차 로고" width={150.99} height={35} />
             </Link>
           </div>
 

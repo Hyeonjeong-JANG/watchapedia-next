@@ -4,7 +4,8 @@ import Link from "next/link";
 import { useEffect, useState } from 'react';
 import { fetchPopularMovies, fetchUpcomingMovies } from '@/infrastructure/api/tmdb';
 import { Movie } from '@/shared/types/movie';
-import { MagazineSection } from '@/features/magazines/MagazineSection'; 
+import { MagazineSection } from '@/features/main/MagazineSection'; 
+import { ShortcutSection } from '@/features/main/ShortcutSection';
 
 export default function Home() {
   const [popularMovies, setPopularMovies] = useState<Movie[]>([]);
@@ -46,6 +47,12 @@ export default function Home() {
         <section className="mb-12">
         <MagazineSection />
       </section>
+
+        {/* 바로가기 섹션 */}
+        <section className="mb-12">
+          <ShortcutSection />
+        </section>
+
         {/* HOT 랭킹 섹션 */}
         <section className="mb-12">
           <h2 className="text-2xl font-bold mb-6">왓챠피디아 HOT 랭킹</h2>
