@@ -37,11 +37,15 @@ export default function Home() {
     <>
       {/* 메인 배너 섹션 */}
       <div className="relative">
-        <MagazineSection />
+      
       </div>
 
       {/* 컨텐츠 섹션 */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* 매거진 섹션 */}
+        <section className="mb-12">
+        <MagazineSection />
+      </section>
         {/* HOT 랭킹 섹션 */}
         <section className="mb-12">
           <h2 className="text-2xl font-bold mb-6">왓챠피디아 HOT 랭킹</h2>
