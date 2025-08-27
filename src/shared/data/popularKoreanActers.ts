@@ -21,7 +21,7 @@ export const POPULAR_KOREAN_ACTORS = [
   { tmdbId: 63436, name: '전지현' },
   { tmdbId: 86889, name: '손예진' },
   { tmdbId: 1988598, name: '박지현' },
-  { tmdbId: 2200230, name: '추영우' },
+  { tmdbId: 2959217, name: '추영우' },
   { tmdbId: 1929194, name: '홍경' },
   { tmdbId: 3276709, name: '채원빈' },
   { tmdbId: 2791233, name: '고윤정' },
