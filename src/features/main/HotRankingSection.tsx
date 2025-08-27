@@ -3,16 +3,23 @@
 import { useState, useEffect } from 'react';
 import { Movie } from '@/shared/types/movie';
 import { fetchPopularMovies } from '@/infrastructure/api/tmdb';
+import { RankChange } from '@/shared/ui/RankChange';
 
 export function HotRankingSection() {
     const [popularMovies, setPopularMovies] = useState<Movie[]>([]);
     const [loadingPopular, setLoadingPopular] = useState(true);
+    const [rankChange, setRankChange] = useState<number | null>(null);
 
     useEffect(() => {
     const getPopularMovies = async () => {
       const data = await fetchPopularMovies();
       if (data) {
-        setPopularMovies(data);
+        // API 데이터에 rank_change를 0으로 할당
+        const moviesWithRank = data.map((movie: Movie) => ({
+            ...movie,
+            rank_change: 0, // 기본값을 0으로 설정
+        }));
+        setPopularMovies(moviesWithRank);
       }
       setLoadingPopular(false);
     };
@@ -44,8 +51,10 @@ export function HotRankingSection() {
                       />
                     </div>
                     <div className="absolute top-2 left-2">
-                      <span className="bg-[#ff0558] text-white text-xs font-bold px-2 py-1 rounded">
-                        {index + 1}
+                      <span className="bg-black text-white text-xs font-bold px-2 py-1 rounded flex items-center gap-1">
+                        <span>{index + 1}</span>
+                        {/* 랭킹 변화 */}
+                        <RankChange rankChange={movie.rank_change ?? 0} />
                       </span>
                     </div>
                     <div className="mt-2">
