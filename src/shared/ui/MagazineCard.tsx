@@ -23,7 +23,7 @@ export function MagazineCard({ id, tag, title, subTitle, image }: MagazineCardPr
         {/* 상단 '인기 아티클' 태그 */}
         <div className="absolute top-0 left-0 p-2">
           <div className="bg-black text-white text-xs font-bold px-2 py-1 rounded">
-            인기 아티클
+            {tag}
           </div>
         </div>
 
