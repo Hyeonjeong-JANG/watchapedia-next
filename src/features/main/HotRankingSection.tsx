@@ -31,7 +31,8 @@ export function HotRankingSection() {
 
   }, []);
     const nextSlide = () => {
-        if (currentIndex < popularMovies.length - ITEMS_PER_SLIDE) {
+        const maxIndex = Math.ceil(popularMovies.length / ITEMS_PER_SLIDE) - 1;
+        if (currentIndex < maxIndex) {
             setCurrentIndex(currentIndex + 1);
         }
     };
@@ -43,7 +44,8 @@ export function HotRankingSection() {
     };
 
     const isFirstSlide = currentIndex === 0;
-    const isLastSlide = currentIndex >= popularMovies.length - ITEMS_PER_SLIDE;
+    const maxIndex = Math.ceil(popularMovies.length / ITEMS_PER_SLIDE) - 1;
+    const isLastSlide = currentIndex >= maxIndex;
 
     return (
         <section className="mb-12">
@@ -65,11 +67,11 @@ export function HotRankingSection() {
                         <div
                             className="flex transition-transform duration-500 gap-4"
                             style={{
-                                transform: `translateX(-${currentIndex * (100 / ITEMS_PER_SLIDE)}%)`
+                                transform: `translateX(-${currentIndex * 100}%)`
                             }}
                         >
                             {popularMovies.map((movie, index) => (
-            <div key={movie.id} className="min-w-0 flex-none" style={{ flexBasis: `calc(100% / ${ITEMS_PER_SLIDE} - 12px)` }}>
+            <div key={movie.id} className="min-w-0 flex-none" style={{ flexBasis: `calc(20% - 12px)` }}>
               <HotRankCard
                 movie={movie}
                 rank={index + 1}

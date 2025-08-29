@@ -3,24 +3,45 @@
 import { useState, useEffect } from 'react';
 import { fetchUpcomingMovies } from '@/infrastructure/api/tmdb';
 import { Movie } from '@/shared/types/movie';
+import { SlideButton } from '@/shared/ui/SlideButton';
 import Link from 'next/link';
+
+const ITEMS_PER_SLIDE = 5;
 
 export function UpcomingMoviesSection() {
     const [upcomingMovies, setUpcomingMovies] = useState<Movie[]>([]);
   const [loadingUpcoming, setLoadingUpcoming] = useState(true);
+  const [currentIndex, setCurrentIndex] = useState(0);
 
     useEffect(() => {
 
     const getUpcomingMovies = async () => {
       const data = await fetchUpcomingMovies();
       if (data) {
-        setUpcomingMovies(data.slice(0, 5)); // 5개만 가져오도록
+        setUpcomingMovies(data.slice(0, 20)); // 20개 가져와서 슬라이드 가능하게
       }
       setLoadingUpcoming(false);
     };
 
     getUpcomingMovies();
   }, []);
+
+  const nextSlide = () => {
+    const maxIndex = Math.ceil(upcomingMovies.length / ITEMS_PER_SLIDE) - 1;
+    if (currentIndex < maxIndex) {
+      setCurrentIndex(currentIndex + 1);
+    }
+  };
+
+  const prevSlide = () => {
+    if (currentIndex > 0) {
+      setCurrentIndex(currentIndex - 1);
+    }
+  };
+
+  const isFirstSlide = currentIndex === 0;
+  const maxIndex = Math.ceil(upcomingMovies.length / ITEMS_PER_SLIDE) - 1;
+  const isLastSlide = currentIndex >= maxIndex;
 
   return (
 <section className="mb-12">
@@ -35,28 +56,47 @@ export function UpcomingMoviesSection() {
               데이터를 불러오는 중입니다...
             </div>
           ) : (
-            <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-              {upcomingMovies.map((movie) => (
-                <div key={movie.id} className="group cursor-pointer">
-                  <div className="aspect-[3/4] bg-gray-200 rounded-lg overflow-hidden mb-2">
-                    <img
-                      src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-                      alt={movie.title}
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                  <div className="flex items-center mb-1">
-                    <span className="bg-gray-800 text-white text-xs px-2 py-1 rounded mr-2">
-                      개봉 {movie.release_date}
-                    </span>
-                    <span className="text-xs text-gray-600">
-                      평균 ★ {movie.vote_average.toFixed(1)}
-                    </span>
-                  </div>
-                  <h3 className="font-semibold text-sm line-clamp-2">{movie.title}</h3>
-                  <p className="text-gray-600 text-xs">개봉일 {movie.release_date}</p>
+            <div className="relative flex items-center">
+              {/* 이전 버튼 */}
+              {!isFirstSlide && (
+                <SlideButton direction="left" onClick={prevSlide} disabled={isFirstSlide} />
+              )}
+
+              <div className="flex-1 overflow-hidden">
+                <div
+                  className="flex transition-transform duration-500 gap-4"
+                  style={{
+                    transform: `translateX(-${currentIndex * 100}%)`
+                  }}
+                >
+                  {upcomingMovies.map((movie) => (
+                    <div key={movie.id} className="min-w-0 flex-none group cursor-pointer" style={{ flexBasis: `calc(20% - 12px)` }}>
+                      <div className="aspect-[3/4] bg-gray-200 rounded-lg overflow-hidden mb-2">
+                        <img
+                          src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+                          alt={movie.title}
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                      <div className="flex items-center mb-1">
+                        <span className="bg-gray-800 text-white text-xs px-2 py-1 rounded mr-2">
+                          개봉 {movie.release_date}
+                        </span>
+                        <span className="text-xs text-gray-600">
+                          평균 ★ {movie.vote_average.toFixed(1)}
+                        </span>
+                      </div>
+                      <h3 className="font-semibold text-sm line-clamp-2">{movie.title}</h3>
+                      <p className="text-gray-600 text-xs">개봉일 {movie.release_date}</p>
+                    </div>
+                  ))}
                 </div>
-              ))}
+              </div>
+
+              {/* 다음 버튼 */}
+              {!isLastSlide && (
+                <SlideButton direction="right" onClick={nextSlide} disabled={isLastSlide} />
+              )}
             </div>
           )}
         </section>
