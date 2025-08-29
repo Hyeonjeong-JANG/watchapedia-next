@@ -5,6 +5,7 @@ import { Movie } from '@/shared/types/movie';
 import { fetchPopularMovies } from '@/infrastructure/api/tmdb';
 import { RankChange } from '@/shared/ui/RankChange';
 import { SlideButton } from '@/shared/ui/SlideButton';
+import { HotRankCard } from '@/shared/ui/HotRankCard';
 const ITEMS_PER_SLIDE = 5;
 
 export function HotRankingSection() {
@@ -68,28 +69,13 @@ export function HotRankingSection() {
                             }}
                         >
                             {popularMovies.map((movie, index) => (
-                                <div key={movie.id} className="min-w-0 flex-none" style={{ flexBasis: `calc(100% / ${ITEMS_PER_SLIDE} - 12px)` }}>
-                                    <div key={movie.id} className="relative group cursor-pointer">
-                                        <div className="aspect-[3/4] bg-gray-200 rounded-lg overflow-hidden">
-                                            <img
-                                                src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-                                                alt={movie.title}
-                                                className="w-full h-full object-cover"
-                                            />
-                                        </div>
-                                        <div className="absolute top-2 left-2">
-                                            <span className="bg-black text-white text-xs font-bold px-2 py-1 rounded flex items-center gap-1">
-                                                <span>{index + 1}</span>
-                                                <RankChange rankChange={movie.rank_change} />
-                                            </span>
-                                        </div>
-                                        <div className="mt-2">
-                                            <h3 className="font-semibold text-sm line-clamp-2">{movie.title}</h3>
-                                            <p className="text-gray-600 text-xs">평균 ★ {movie.vote_average.toFixed(1)}</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            ))}
+            <div key={movie.id} className="min-w-0 flex-none" style={{ flexBasis: `calc(100% / ${ITEMS_PER_SLIDE} - 12px)` }}>
+              <HotRankCard
+                movie={movie}
+                rank={index + 1}
+              />
+            </div>
+          ))}
                         </div>
                     </div>
                     {/* 다음 버튼 */}

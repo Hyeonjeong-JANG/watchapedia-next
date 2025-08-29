@@ -19,7 +19,7 @@ export function SlideButton({ direction, onClick, disabled }: SlideButtonProps) 
       className={`absolute ${position} top-1/2 transform -translate-y-1/2 w-9 h-9 rounded-full bg-white bg-opacity-75 shadow-md flex items-center justify-center cursor-pointer z-10
                 disabled:opacity-40 disabled:cursor-not-allowed`}
     >
-      <FontAwesomeIcon icon={icon} className="w-2 h-2 text-gray-300" />
+      <FontAwesomeIcon icon={icon} className="w-1 h-1 text-gray-300" />
     </button>
   );
 }
