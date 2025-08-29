@@ -31,21 +31,21 @@ export function HotRankingSection() {
 
   }, []);
     const nextSlide = () => {
-        const maxIndex = Math.ceil(popularMovies.length / ITEMS_PER_SLIDE) - 1;
-        if (currentIndex < maxIndex) {
-            setCurrentIndex(currentIndex + 1);
+        if (currentIndex + ITEMS_PER_SLIDE < popularMovies.length) {
+            setCurrentIndex(currentIndex + ITEMS_PER_SLIDE);
         }
     };
 
     const prevSlide = () => {
-        if (currentIndex > 0) {
-            setCurrentIndex(currentIndex - 1);
+        if (currentIndex >= ITEMS_PER_SLIDE) {
+            setCurrentIndex(currentIndex - ITEMS_PER_SLIDE);
+        } else {
+            setCurrentIndex(0);
         }
     };
 
     const isFirstSlide = currentIndex === 0;
-    const maxIndex = Math.ceil(popularMovies.length / ITEMS_PER_SLIDE) - 1;
-    const isLastSlide = currentIndex >= maxIndex;
+    const isLastSlide = currentIndex + ITEMS_PER_SLIDE >= popularMovies.length;
 
     return (
         <section className="mb-12">
@@ -64,20 +64,14 @@ export function HotRankingSection() {
                     )}
 
                     <div className="flex-1 overflow-hidden">
-                        <div
-                            className="flex transition-transform duration-500 gap-4"
-                            style={{
-                                transform: `translateX(-${currentIndex * 100}%)`
-                            }}
-                        >
-                            {popularMovies.map((movie, index) => (
-            <div key={movie.id} className="min-w-0 flex-none" style={{ flexBasis: `calc(20% - 12px)` }}>
+                        <div className="grid grid-cols-5 gap-4">
+                            {popularMovies.slice(currentIndex, currentIndex + ITEMS_PER_SLIDE).map((movie, index) => (
               <HotRankCard
+                key={movie.id}
                 movie={movie}
-                rank={index + 1}
+                rank={currentIndex + index + 1}
               />
-            </div>
-          ))}
+            ))}
                         </div>
                     </div>
                     {/* 다음 버튼 */}

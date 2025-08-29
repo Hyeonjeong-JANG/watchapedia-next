@@ -30,21 +30,27 @@ export function HotPeopleSection() {
   }, []);
 
   const nextSlide = () => {
-    const maxIndex = Math.ceil(people.length / ITEMS_PER_SLIDE) - 1;
-    if (currentIndex < maxIndex) {
-      setCurrentIndex(currentIndex + 1);
+    const remainingItems = people.length - currentIndex;
+    // 남은 아이템이 8개 이하면 (즉, 마지막에 2명이 남을 상황이면) 2칸씩 이동
+    if (remainingItems <= 8 && remainingItems > 6) {
+      setCurrentIndex(currentIndex + 2);
+    } else if (currentIndex + ITEMS_PER_SLIDE < people.length) {
+      setCurrentIndex(currentIndex + ITEMS_PER_SLIDE);
     }
   };
 
   const prevSlide = () => {
-    if (currentIndex > 0) {
-      setCurrentIndex(currentIndex - 1);
+    if (currentIndex >= ITEMS_PER_SLIDE) {
+      setCurrentIndex(currentIndex - ITEMS_PER_SLIDE);
+    } else if (currentIndex >= 2) {
+      setCurrentIndex(currentIndex - 2);
+    } else {
+      setCurrentIndex(0);
     }
   };
 
   const isFirstSlide = currentIndex === 0;
-  const maxIndex = Math.ceil(people.length / ITEMS_PER_SLIDE) - 1;
-  const isLastSlide = currentIndex >= maxIndex;
+  const isLastSlide = currentIndex + ITEMS_PER_SLIDE >= people.length;
 
   if (loading) {
     return (
@@ -69,13 +75,9 @@ export function HotPeopleSection() {
         )}
 
         <div className="flex-1 overflow-hidden">
-          <div
-            className="flex transition-transform duration-500 gap-4"
-            style={{
-              transform: `translateX(-${currentIndex * 100}%)`
-            }}
-          >
-            {people.map((person, index) => {
+          <div className="grid grid-cols-6 gap-4">
+            {people.slice(currentIndex, currentIndex + ITEMS_PER_SLIDE).map((person, index) => {
+              const actualIndex = currentIndex + index;
               // 대표작 설정 (상위 6명은 실제 작품명, 7위부터는 "Acting")
               const representativeWorks = [
                 "폭군의 세프트", 
@@ -85,7 +87,7 @@ export function HotPeopleSection() {
                 "춤비타", 
                 "배우"
               ];
-              const representativeWork = index < 6 ? representativeWorks[index] : "Acting";
+              const representativeWork = actualIndex < 6 ? representativeWorks[actualIndex] : "Acting";
               
               // 좋아요 수 (이미지와 동일한 값들)
               const baseLikes = [
@@ -94,7 +96,7 @@ export function HotPeopleSection() {
                 118, 628, 106, 333, 102, 1067,   // 13-18위
                 0, 0                             // 19-20위 (이미지에서 보이지 않음)
               ];
-              const likes = baseLikes[index] || Math.floor(Math.random() * 500) + 100;
+              const likes = baseLikes[actualIndex] || Math.floor(Math.random() * 500) + 100;
               
               // 랭킹 변화 (이미지와 동일한 패턴)
               const rankChanges = [
@@ -103,20 +105,19 @@ export function HotPeopleSection() {
                 0, 0, 0, 0, 0, 0,    // 13-18위 (모두 NEW)
                 0, 0                 // 19-20위 (NEW)
               ];
-              const rankChange = rankChanges[index] || 0;
+              const rankChange = rankChanges[actualIndex] || 0;
 
               return (
-                <div key={person.id} className="min-w-0 flex-none" style={{ flexBasis: `calc(${100 / ITEMS_PER_SLIDE}% - 12px)` }}>
-                  <HotActorCard
-                    rank={index + 1}
-                    id={person.id}
-                    name={person.name}
-                    profile_path={person.profile_path}
-                    representative_work={representativeWork}
-                    likes={likes}
-                    rank_change={rankChange}
-                  />
-                </div>
+                <HotActorCard
+                  key={person.id}
+                  rank={actualIndex + 1}
+                  id={person.id}
+                  name={person.name}
+                  profile_path={person.profile_path}
+                  representative_work={representativeWork}
+                  likes={likes}
+                  rank_change={rankChange}
+                />
               );
             })}
           </div>

@@ -27,21 +27,21 @@ export function UpcomingMoviesSection() {
   }, []);
 
   const nextSlide = () => {
-    const maxIndex = Math.ceil(upcomingMovies.length / ITEMS_PER_SLIDE) - 1;
-    if (currentIndex < maxIndex) {
-      setCurrentIndex(currentIndex + 1);
+    if (currentIndex + ITEMS_PER_SLIDE < upcomingMovies.length) {
+      setCurrentIndex(currentIndex + ITEMS_PER_SLIDE);
     }
   };
 
   const prevSlide = () => {
-    if (currentIndex > 0) {
-      setCurrentIndex(currentIndex - 1);
+    if (currentIndex >= ITEMS_PER_SLIDE) {
+      setCurrentIndex(currentIndex - ITEMS_PER_SLIDE);
+    } else {
+      setCurrentIndex(0);
     }
   };
 
   const isFirstSlide = currentIndex === 0;
-  const maxIndex = Math.ceil(upcomingMovies.length / ITEMS_PER_SLIDE) - 1;
-  const isLastSlide = currentIndex >= maxIndex;
+  const isLastSlide = currentIndex + ITEMS_PER_SLIDE >= upcomingMovies.length;
 
   return (
 <section className="mb-12">
@@ -63,14 +63,9 @@ export function UpcomingMoviesSection() {
               )}
 
               <div className="flex-1 overflow-hidden">
-                <div
-                  className="flex transition-transform duration-500 gap-4"
-                  style={{
-                    transform: `translateX(-${currentIndex * 100}%)`
-                  }}
-                >
-                  {upcomingMovies.map((movie) => (
-                    <div key={movie.id} className="min-w-0 flex-none group cursor-pointer" style={{ flexBasis: `calc(20% - 12px)` }}>
+                <div className="grid grid-cols-5 gap-4">
+                  {upcomingMovies.slice(currentIndex, currentIndex + ITEMS_PER_SLIDE).map((movie) => (
+                    <div key={movie.id} className="group cursor-pointer">
                       <div className="aspect-[3/4] bg-gray-200 rounded-lg overflow-hidden mb-2">
                         <img
                           src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
